@@ -1,11 +1,21 @@
 "use client";
 import { useGetRecipeByIdQuery } from "@/lib/store/api";
+import { Loader } from "./Loader";
+import { ErrorMessage } from "./ErrorMessage";
 
 export const RecipeDetail = ({ id }: { id: string }) => {
   const { data, error, isLoading } = useGetRecipeByIdQuery(id);
 
-  if (data && !isLoading && !error) {
-    return (
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <ErrorMessage error={error} />;
+  }
+
+  return (
+    data && (
       <dl>
         <dt>Název</dt>
         <dd>{data.name}</dd>
@@ -26,6 +36,6 @@ export const RecipeDetail = ({ id }: { id: string }) => {
           </ul>
         </dd>
       </dl>
-    );
-  }
+    )
+  );
 };

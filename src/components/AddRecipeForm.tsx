@@ -43,15 +43,15 @@ const AddRecipeForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
       <label htmlFor="name">Název</label>
-      <input {...register("name")} />
+      <input id="name" {...register("name")} />
       <label htmlFor="description">Popis</label>
-      <input {...register("description")} />
+      <input id="description" {...register("description")} />
       <label htmlFor="info">Info</label>
-      <input {...register("info")} />
+      <input id="info" {...register("info")} />
       <label htmlFor="ingredients">Ingredience</label>
-      <input {...register("ingredients")} />
+      <input id="ingredients" {...register("ingredients")} />
       <label htmlFor="duration">Délka</label>
-      <input {...register("duration")} />
+      <input id="duration" {...register("duration")} />
       <button type="submit">Přidat recept</button>
     </form>
   );
