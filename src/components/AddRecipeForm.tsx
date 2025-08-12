@@ -9,6 +9,7 @@ import { FormPrompt } from '@/components/FormPrompt';
 import { FormField } from '@/components/FormField';
 import { redirect } from 'next/navigation';
 import { MultiFormField } from '@/components/MultiFormField';
+import { Loader } from './Loader';
 
 const FormSchema = z.object({
   name: z.string().min(1, 'Recept nemůže být bez názvu.'),
@@ -88,10 +89,18 @@ const AddRecipeForm = () => {
         <button
           data-testid="submit-button"
           disabled={methods.formState.isSubmitting}
-          className="mt-4 flex cursor-pointer flex-row items-center gap-4 self-end rounded-[8px] border-2 border-fuchsia-500 p-4 font-bold text-fuchsia-500 hover:border-blue-700 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-fuchsia-500 disabled:hover:text-fuchsia-500"
+          className="mt-4 flex w-44 cursor-pointer flex-row items-center gap-4 self-end rounded-[8px] border-2 border-fuchsia-500 p-4 font-bold text-fuchsia-500 hover:border-blue-700 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-fuchsia-500 disabled:hover:text-fuchsia-500"
           type="submit"
         >
-          <p className="text-2xl">+</p> Přidat recept
+          {!methods.formState.isSubmitting && <span className="text-2xl">+</span>}
+
+          {methods.formState.isSubmitting && (
+            <div className="mx-auto mt-[-2rem]">
+              <Loader />
+            </div>
+          )}
+
+          {!methods.formState.isSubmitting && <span>Přidat recept</span>}
         </button>
       </form>
     </FormProvider>
