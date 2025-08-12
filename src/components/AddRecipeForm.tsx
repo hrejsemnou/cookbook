@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import * as z from "zod";
@@ -7,12 +8,17 @@ import { useAddRecipeMutation } from "@/lib/store/api";
 import { FormPrompt } from "@/components/FormPrompt";
 import { FormField } from "@/components/FormField";
 import { redirect } from "next/navigation";
-import { useState } from "react";
+import { MultiFormField } from "@/components/MultiFormField";
 
 const FormSchema = z.object({
   name: z.string().min(1, "Recept nemůže být bez názvu."),
   info: z.string(),
-  ingredients: z.string(),
+  ingredients: z
+    .array(z.string())
+    .transform((arr) => arr.filter((item) => item.trim() !== ""))
+    .refine((arr) => arr.length > 0, {
+      message: "Musíte zadat alespoň jednu ingredienci.",
+    }),
   description: z.string().min(1, "Recept nemůže být bez postupu."),
   duration: z
     .number("Čas musí mít číselnou hodnotu.")
@@ -26,6 +32,13 @@ const AddRecipeForm = () => {
   const methods = useForm<FormData>({
     resolver: zodResolver(FormSchema),
     mode: "all",
+    defaultValues: {
+      name: "",
+      info: "",
+      ingredients: [""],
+      description: "",
+      duration: undefined,
+    },
   });
 
   const [addRecipe] = useAddRecipeMutation();
@@ -38,7 +51,7 @@ const AddRecipeForm = () => {
         name,
         description,
         info,
-        ingredients: [ingredients],
+        ingredients,
         duration,
       }).unwrap();
       setFormSent(true);
@@ -67,12 +80,18 @@ const AddRecipeForm = () => {
       >
         <FormField name="name" label="Název receptu" />
         <FormField name="info" label="Úvodní text" />
-        <FormField name="ingredients" label="Ingredience" />
+        <MultiFormField
+          name="ingredients"
+          topLabel="INGREDIENCE"
+          addButtonLabel="+ Přidat"
+          label="Vaše ingredience"
+        />
         <FormField name="description" label="Postup" />
         <FormField type="number" name="duration" label="Čas" />
         <button
           data-testid="submit-button"
-          className="flex flex-row items-center gap-4 p-4 border-2 border-fuchsia-500 rounded-[8px] mt-4 text-fuchsia-500 font-bold self-end cursor-pointer hover:text-blue-700 hover:border-blue-700"
+          disabled={methods.formState.isSubmitting}
+          className="flex flex-row items-center gap-4 p-4 border-2 border-fuchsia-500 rounded-[8px] mt-4 text-fuchsia-500 font-bold self-end cursor-pointer hover:text-blue-700 hover:border-blue-700 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-fuchsia-500 disabled:hover:text-fuchsia-500"
           type="submit"
         >
           <p className="text-2xl">+</p> Přidat recept

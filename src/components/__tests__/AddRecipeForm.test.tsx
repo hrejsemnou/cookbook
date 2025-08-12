@@ -28,7 +28,7 @@ describe("AddRecipeForm", () => {
     fireEvent.change(screen.getByPlaceholderText("Postup"), {
       target: { value: "Put in the oven" },
     });
-    fireEvent.change(screen.getByPlaceholderText("Ingredience"), {
+    fireEvent.change(screen.getByPlaceholderText("Vaše ingredience"), {
       target: { value: "Cheese" },
     });
     fireEvent.change(screen.getByPlaceholderText("Čas"), {
@@ -43,6 +43,44 @@ describe("AddRecipeForm", () => {
         info: "Cheesy",
         description: "Put in the oven",
         ingredients: ["Cheese"],
+        duration: 30,
+      });
+
+      expect(mockUnwrap).toHaveBeenCalled();
+    });
+  });
+
+  it("submits the form with multiple ingredients", async () => {
+    render(<AddRecipeForm />);
+
+    fireEvent.change(screen.getByPlaceholderText("Název receptu"), {
+      target: { value: "Pizza" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Úvodní text"), {
+      target: { value: "Cheesy" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Postup"), {
+      target: { value: "Put in the oven" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Vaše ingredience"), {
+      target: { value: "Cheese" },
+    });
+    fireEvent.click(screen.getByTestId("add-ingredient-button"));
+    fireEvent.change(screen.getAllByPlaceholderText("Vaše ingredience")[1], {
+      target: { value: "Peppers" },
+    });
+    fireEvent.change(screen.getByPlaceholderText("Čas"), {
+      target: { value: 30 },
+    });
+
+    fireEvent.click(screen.getByTestId("submit-button"));
+
+    await waitFor(() => {
+      expect(mockAddRecipe).toHaveBeenCalledWith({
+        name: "Pizza",
+        info: "Cheesy",
+        description: "Put in the oven",
+        ingredients: ["Cheese", "Peppers"],
         duration: 30,
       });
 
