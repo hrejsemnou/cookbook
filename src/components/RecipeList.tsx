@@ -1,8 +1,8 @@
-"use client";
-import { ErrorMessage } from "./ErrorMessage";
-import { Loader } from "./Loader";
-import { RecipeListItem } from "./RecipeListItem";
-import { useGetRecipesQuery } from "@/lib/store/api";
+'use client';
+import { ErrorMessage } from './ErrorMessage';
+import { Loader } from './Loader';
+import { RecipeListItem } from './RecipeListItem';
+import { useGetRecipesQuery } from '@/lib/store/api';
 
 export const RecipeList = () => {
   const { data, error, isLoading } = useGetRecipesQuery();

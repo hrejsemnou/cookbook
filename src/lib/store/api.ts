@@ -1,14 +1,13 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import Recipe from "@/lib/types/Recipe";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import Recipe from '@/lib/types/Recipe';
 
 // Define a service using a base URL and expected endpoints
 export const api = createApi({
-  reducerPath: "cookbookApi",
+  reducerPath: 'cookbookApi',
   baseQuery: fetchBaseQuery({
-    baseUrl:
-      "https://my-json-server.typicode.com/AckeeCZ/web-task-cookbook-fake-api",
+    baseUrl: 'https://my-json-server.typicode.com/AckeeCZ/web-task-cookbook-fake-api',
   }),
-  tagTypes: ["Recipes"],
+  tagTypes: ['Recipes'],
   endpoints: (build) => ({
     getRecipes: build.query<Recipe[], void>({
       query: () => `recipes`,
@@ -18,19 +17,15 @@ export const api = createApi({
     }),
     addRecipe: build.mutation({
       query: (formData) => ({
-        url: "/recipes",
-        method: "POST",
+        url: '/recipes',
+        method: 'POST',
         body: formData,
       }),
-      invalidatesTags: ["Recipes"],
+      invalidatesTags: ['Recipes'],
     }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const {
-  useAddRecipeMutation,
-  useGetRecipesQuery,
-  useGetRecipeByIdQuery,
-} = api;
+export const { useAddRecipeMutation, useGetRecipesQuery, useGetRecipeByIdQuery } = api;

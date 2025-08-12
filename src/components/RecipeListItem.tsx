@@ -1,23 +1,20 @@
-import Recipe from "@/lib/types/Recipe";
-import Image from "next/image";
-import Link from "next/link";
+import Recipe from '@/lib/types/Recipe';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export const RecipeListItem = ({ recipe }: { recipe: Recipe }) => {
   return (
     <li>
-      <Link
-        href={`/recipe-detail/${recipe.id}`}
-        className="group flex py-4 gap-4"
-      >
+      <Link href={`/recipe-detail/${recipe.id}`} className="group flex gap-4 py-4">
         <Image
           src="/recipe_placeholder.png"
           alt="recipe_picture"
           width="100"
           height="100"
-          className="w-[100px] h-[100px] object-cover flex-shrink-0"
+          className="h-[100px] w-[100px] flex-shrink-0 object-cover"
         />
-        <div className="flex flex-col gap-1 justify-center">
-          <span className="group-hover:text-fuchsia-500 font-bold text-2xl text-blue-700">
+        <div className="flex flex-col justify-center gap-1">
+          <span className="text-2xl font-bold text-blue-700 group-hover:text-fuchsia-500">
             {recipe.name}
           </span>
           <div className="text-xl">

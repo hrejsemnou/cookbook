@@ -1,7 +1,7 @@
-"use client";
-import { useGetRecipeByIdQuery } from "@/lib/store/api";
-import { Loader } from "./Loader";
-import { ErrorMessage } from "./ErrorMessage";
+'use client';
+import { useGetRecipeByIdQuery } from '@/lib/store/api';
+import { Loader } from './Loader';
+import { ErrorMessage } from './ErrorMessage';
 
 export const RecipeDetail = ({ id }: { id: string }) => {
   const { data, error, isLoading } = useGetRecipeByIdQuery(id);

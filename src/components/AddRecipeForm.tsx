@@ -1,29 +1,29 @@
-"use client";
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
-import * as z from "zod";
+'use client';
+import { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
+import * as z from 'zod';
 
-import { useAddRecipeMutation } from "@/lib/store/api";
-import { FormPrompt } from "@/components/FormPrompt";
-import { FormField } from "@/components/FormField";
-import { redirect } from "next/navigation";
-import { MultiFormField } from "@/components/MultiFormField";
+import { useAddRecipeMutation } from '@/lib/store/api';
+import { FormPrompt } from '@/components/FormPrompt';
+import { FormField } from '@/components/FormField';
+import { redirect } from 'next/navigation';
+import { MultiFormField } from '@/components/MultiFormField';
 
 const FormSchema = z.object({
-  name: z.string().min(1, "Recept nemůže být bez názvu."),
+  name: z.string().min(1, 'Recept nemůže být bez názvu.'),
   info: z.string(),
   ingredients: z
     .array(z.string())
-    .transform((arr) => arr.filter((item) => item.trim() !== ""))
+    .transform((arr) => arr.filter((item) => item.trim() !== ''))
     .refine((arr) => arr.length > 0, {
-      message: "Musíte zadat alespoň jednu ingredienci.",
+      message: 'Musíte zadat alespoň jednu ingredienci.',
     }),
-  description: z.string().min(1, "Recept nemůže být bez postupu."),
+  description: z.string().min(1, 'Recept nemůže být bez postupu.'),
   duration: z
-    .number("Čas musí mít číselnou hodnotu.")
-    .int("Čas musí být celé číslo.")
-    .positive("Čas musí být kladné číslo."),
+    .number('Čas musí mít číselnou hodnotu.')
+    .int('Čas musí být celé číslo.')
+    .positive('Čas musí být kladné číslo.'),
 });
 
 type FormData = z.infer<typeof FormSchema>;
@@ -31,12 +31,12 @@ type FormData = z.infer<typeof FormSchema>;
 const AddRecipeForm = () => {
   const methods = useForm<FormData>({
     resolver: zodResolver(FormSchema),
-    mode: "all",
+    mode: 'all',
     defaultValues: {
-      name: "",
-      info: "",
-      ingredients: [""],
-      description: "",
+      name: '',
+      info: '',
+      ingredients: [''],
+      description: '',
       duration: undefined,
     },
   });
@@ -56,10 +56,10 @@ const AddRecipeForm = () => {
       }).unwrap();
       setFormSent(true);
       setTimeout(() => {
-        redirect("/recipes");
+        redirect('/recipes');
       }, 5000);
     } catch (error: unknown) {
-      console.error("Add recipe operation failed:", error);
+      console.error('Add recipe operation failed:', error);
     }
   };
 
@@ -74,10 +74,7 @@ const AddRecipeForm = () => {
   return (
     <FormProvider {...methods}>
       <FormPrompt hasUnsavedChanges={methods.formState.isDirty} />
-      <form
-        onSubmit={methods.handleSubmit(onSubmit)}
-        className="flex flex-col mt-8"
-      >
+      <form onSubmit={methods.handleSubmit(onSubmit)} className="mt-8 flex flex-col">
         <FormField name="name" label="Název receptu" />
         <FormField name="info" label="Úvodní text" />
         <MultiFormField
@@ -91,7 +88,7 @@ const AddRecipeForm = () => {
         <button
           data-testid="submit-button"
           disabled={methods.formState.isSubmitting}
-          className="flex flex-row items-center gap-4 p-4 border-2 border-fuchsia-500 rounded-[8px] mt-4 text-fuchsia-500 font-bold self-end cursor-pointer hover:text-blue-700 hover:border-blue-700 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-fuchsia-500 disabled:hover:text-fuchsia-500"
+          className="mt-4 flex cursor-pointer flex-row items-center gap-4 self-end rounded-[8px] border-2 border-fuchsia-500 p-4 font-bold text-fuchsia-500 hover:border-blue-700 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-fuchsia-500 disabled:hover:text-fuchsia-500"
           type="submit"
         >
           <p className="text-2xl">+</p> Přidat recept
