@@ -23,9 +23,22 @@ export const api = createApi({
       }),
       invalidatesTags: ['Recipes'],
     }),
+    addRating: build.mutation({
+      query: ({ recipeId, formData }) => ({
+        url: `/recipes/${recipeId}/ratings`,
+        method: 'POST',
+        body: formData,
+      }),
+      invalidatesTags: ['Recipes'],
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useAddRecipeMutation, useGetRecipesQuery, useGetRecipeByIdQuery } = api;
+export const {
+  useAddRecipeMutation,
+  useGetRecipesQuery,
+  useGetRecipeByIdQuery,
+  useAddRatingMutation,
+} = api;

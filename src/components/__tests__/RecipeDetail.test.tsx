@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { RecipeDetail } from '@/components/RecipeDetail';
-import { useGetRecipeByIdQuery } from '@/lib/store/api';
+import { useAddRatingMutation, useGetRecipeByIdQuery } from '@/lib/store/api';
 
 jest.mock('@/lib/store/api', () => ({
   useGetRecipeByIdQuery: jest.fn(),
+  useAddRatingMutation: jest.fn(),
 }));
 
 const mockRecipe = {
@@ -17,6 +18,12 @@ const mockRecipe = {
 };
 
 describe('RecipeDetail', () => {
+  const mockAddRating = jest.fn(() => ({}));
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (useAddRatingMutation as jest.Mock).mockReturnValue([mockAddRating]);
+  });
+
   it('renders recipe details', () => {
     (useGetRecipeByIdQuery as jest.Mock).mockReturnValue({
       data: mockRecipe,
@@ -50,5 +57,25 @@ describe('RecipeDetail', () => {
 
     render(<RecipeDetail id="1" />);
     expect(screen.getByTestId('error-message')).toHaveTextContent('Something bad happened');
+  });
+
+  it('submits rating with the correct score', () => {
+    (useGetRecipeByIdQuery as jest.Mock).mockReturnValue({
+      data: mockRecipe,
+      isLoading: false,
+      error: null,
+    });
+
+    render(<RecipeDetail id="1" />);
+
+    expect(screen.getByText('Ohodnoť tento recept')).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId('score-5'));
+
+    expect(mockAddRating).toHaveBeenCalledWith({
+      recipeId: '1',
+      formData: {
+        score: 5,
+      },
+    });
   });
 });

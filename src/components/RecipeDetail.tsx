@@ -4,6 +4,7 @@ import { Loader } from '@/components/Loader';
 import { ErrorMessage } from '@/components/ErrorMessage';
 import Image from 'next/image';
 import { ScoreStars } from '@/components/ScoreStars';
+import { ReviewPanel } from './ReviewPanel';
 
 export const RecipeDetail = ({ id }: { id: string }) => {
   const { data, error, isLoading } = useGetRecipeByIdQuery(id);
@@ -57,6 +58,7 @@ export const RecipeDetail = ({ id }: { id: string }) => {
           <p className="mt-4">{data.description}</p>
         </div>
       </div>
+      <ReviewPanel recipeId={data.id} />
     </div>
   );
 };
