@@ -1,4 +1,5 @@
 import { useFormContext, useFieldArray } from 'react-hook-form';
+import { InputFormData } from '@/components/FormSchemas';
 
 interface MultiFormFieldProps {
   name: string;
@@ -8,10 +9,9 @@ interface MultiFormFieldProps {
 }
 
 export const MultiFormField = ({ name, label, topLabel, addButtonLabel }: MultiFormFieldProps) => {
-  const { control, register, formState, watch } = useFormContext();
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name,
+  const { register, formState, watch } = useFormContext();
+  const { fields, append, remove } = useFieldArray<InputFormData, 'ingredients', 'id'>({
+    name: 'ingredients',
   });
   const value = watch(name);
 
@@ -25,12 +25,12 @@ export const MultiFormField = ({ name, label, topLabel, addButtonLabel }: MultiF
     <div className="my-4 flex flex-col gap-2">
       <label className="self-start font-bold text-blue-700">{topLabel}</label>
 
-      {value.map((_: string, index: number) => (
-        <div key={index} className="flex gap-2">
+      {fields.map((field, index) => (
+        <div key={field.id} className="flex gap-2">
           <input
             type="text"
             placeholder={label}
-            {...register(`${name}.${index}` as const)}
+            {...register(`${name}.${index}.value` as const)}
             className="text-foreground bg-background flex-1 border-b-2 border-b-gray-300 py-2 outline-0 placeholder:text-gray-500 focus:border-b-2 focus:border-b-blue-700"
           />
           {fields.length > 1 && (
@@ -48,8 +48,8 @@ export const MultiFormField = ({ name, label, topLabel, addButtonLabel }: MultiF
       <button
         type="button"
         data-testid="add-ingredient-button"
-        disabled={value[value.length - 1] === ''}
-        onClick={() => append('')}
+        disabled={value[value.length - 1].value === ''}
+        onClick={() => append({ value: '' })}
         className="mt-4 flex cursor-pointer flex-row items-center gap-4 self-start rounded-[8px] border-2 border-fuchsia-500 p-2 font-bold text-fuchsia-500 hover:border-blue-700 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-fuchsia-500 disabled:hover:text-fuchsia-500"
       >
         <p>{addButtonLabel}</p>

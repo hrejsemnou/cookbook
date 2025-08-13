@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
-import * as z from 'zod';
 
 import { useAddRecipeMutation } from '@/lib/store/api';
 import { FormPrompt } from '@/components/FormPrompt';
@@ -10,33 +9,16 @@ import { FormField } from '@/components/FormField';
 import { redirect } from 'next/navigation';
 import { MultiFormField } from '@/components/MultiFormField';
 import { SubmitButton } from '@/components/SubmitButton';
-
-const FormSchema = z.object({
-  name: z.string().min(1, 'Recept nemůže být bez názvu.'),
-  info: z.string(),
-  ingredients: z
-    .array(z.string())
-    .transform((arr) => arr.filter((item) => item.trim() !== ''))
-    .refine((arr) => arr.length > 0, {
-      message: 'Musíte zadat alespoň jednu ingredienci.',
-    }),
-  description: z.string().min(1, 'Recept nemůže být bez postupu.'),
-  duration: z
-    .number('Čas musí mít číselnou hodnotu.')
-    .int('Čas musí být celé číslo.')
-    .positive('Čas musí být kladné číslo.'),
-});
-
-type FormData = z.infer<typeof FormSchema>;
+import { AddRecipeFormSchema, InputFormData, OutputFormData } from '@/components/FormSchemas';
 
 const AddRecipeForm = () => {
-  const methods = useForm<FormData>({
-    resolver: zodResolver(FormSchema),
+  const methods = useForm<InputFormData, unknown, OutputFormData>({
+    resolver: zodResolver(AddRecipeFormSchema),
     mode: 'all',
     defaultValues: {
       name: '',
       info: '',
-      ingredients: [''],
+      ingredients: [{ value: '' }],
       description: '',
       duration: undefined,
     },
@@ -45,7 +27,7 @@ const AddRecipeForm = () => {
   const [addRecipe] = useAddRecipeMutation();
   const [formSent, setFormSent] = useState(false);
 
-  const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
+  const onSubmit: SubmitHandler<OutputFormData> = async (data: OutputFormData) => {
     const { name, description, info, ingredients, duration } = data;
     try {
       await addRecipe({
