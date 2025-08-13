@@ -39,7 +39,7 @@ const AddRecipeForm = () => {
       }).unwrap();
       setFormSent(true);
       setTimeout(() => {
-        redirect('/recipes');
+        redirect('/');
       }, 5000);
     } catch (error: unknown) {
       console.error('Add recipe operation failed:', error);

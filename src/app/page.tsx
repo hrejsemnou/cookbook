@@ -1,11 +1,17 @@
 import Link from 'next/link';
 
-export default function Home() {
+import { RecipeList } from '@/components/RecipeList';
+
+export default function RecipesPage() {
   return (
-    <div className="flex flex-col">
-      <Link href="recipes">Recepty</Link>
-      <Link href="add-recipe">Přidat recept</Link>
-      <Link href="recipe-detail/58777f22b23541fc058c789f">Detail receptu</Link>
+    <div className="px-8">
+      <header className="mx-[-2rem] flex justify-between border-b-2 border-gray-300 px-8 py-4 text-4xl md:mx-[-1rem] md:px-4">
+        <h1>Recepty</h1>
+        <Link href="/add-recipe" className="text-blue-700 hover:text-fuchsia-500">
+          +
+        </Link>
+      </header>
+      <RecipeList />
     </div>
   );
 }

@@ -8,10 +8,7 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
     <div>
       <header className="relative w-full text-4xl">
         <div className="absolute top-0 right-0 left-0 flex justify-between p-4">
-          <Link
-            href="/recipes"
-            className="absolute top-0 left-4 z-1 text-white hover:text-blue-700"
-          >
+          <Link href="/" className="absolute top-0 left-4 z-1 text-white hover:text-blue-700">
             ←
           </Link>
           <Link
