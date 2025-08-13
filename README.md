@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cook with me
 
-## Getting Started
+This is a simple cookbook app with a list of recipes, their details and a form to add more. It is built with React, NextJS, Tailwind CSS, Redux-Toolkit and Redux-Toolkit Query, React-Hook-Form and Zod. It is bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-First, run the development server:
+It serves as a solution for this [interview task](https://github.com/AckeeCZ/cookbook-web-task).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Deployment
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The project is deployed via vercel on [this url](https://cook-with-luke.vercel.app/).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## To run it locally:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. `npm install`
+2. `npm run dev`
 
-## Learn More
+## To run tests:
 
-To learn more about Next.js, take a look at the following resources:
+1. `npm run test:watch`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Gotchas
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- The backend is not persistent, so it's not possible to add new recipes to the db.
+- The ratings endpoint doesn't seem to work, so the request currently fails with a 404.
 
-## Deploy on Vercel
+## Improvements backlog
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Pagination/Endless scroll for the recipe list - as there are only 2 items in the db, it wasn't a priority, but in a serious environment, this should be handled.
+- Error & Loading boundary - error handling is currently very naive and could use more work. Same applies to loading states.
+- Storybook for components - it would be nice to have some UI tests like these.
+- Test coverage - as always, even this project could use more tests.
