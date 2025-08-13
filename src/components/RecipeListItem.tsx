@@ -1,6 +1,7 @@
 import Recipe from '@/lib/types/Recipe';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ScoreStars } from '@/components/ScoreStars';
 
 export const RecipeListItem = ({ recipe }: { recipe: Recipe }) => {
   return (
@@ -17,17 +18,8 @@ export const RecipeListItem = ({ recipe }: { recipe: Recipe }) => {
           <span className="text-2xl font-bold text-blue-700 group-hover:text-fuchsia-500">
             {recipe.name}
           </span>
-          <div className="text-xl">
-            {Array.from({ length: recipe.score }, (_, i) => (
-              <span key={i} className="text-fuchsia-500">
-                ★
-              </span>
-            ))}
-            {Array.from({ length: 5 - recipe.score }, (_, i) => (
-              <span key={i} className="text-fuchsia-500">
-                ☆
-              </span>
-            ))}
+          <div className="text-xl text-fuchsia-500">
+            <ScoreStars score={recipe.score} />
           </div>
           <div className="flex gap-2 text-xl">
             <span>⏲</span>
