@@ -1,4 +1,4 @@
-# Cook with me
+# Cook with Luke
 
 This is a simple cookbook app with a list of recipes, their details and a form to add more. It is built with React, NextJS, Tailwind CSS, Redux-Toolkit and Redux-Toolkit Query, React-Hook-Form and Zod. It is bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 

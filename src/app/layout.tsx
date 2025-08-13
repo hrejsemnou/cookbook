@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Cook with me',
+  title: 'Cook with Luke',
   description: 'A simple cookbook app',
 };
 
