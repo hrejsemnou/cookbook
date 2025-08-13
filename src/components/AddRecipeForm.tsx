@@ -67,7 +67,7 @@ const AddRecipeForm = () => {
           label="Vaše ingredience"
         />
         <FormField name="description" label="Postup" />
-        <FormField type="number" name="duration" label="Čas" />
+        <FormField inputType="number" name="duration" label="Čas" />
         <SubmitButton isSubmitting={methods.formState.isSubmitting} label="Přidat recept" />
       </form>
     </FormProvider>
